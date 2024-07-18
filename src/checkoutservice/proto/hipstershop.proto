@@ -194,11 +194,7 @@ message ChargeResponse {
     string transaction_id = 1;
 }
 
-// -------------Email service-----------------
-
-service EmailService {
-    rpc SendOrderConfirmation(SendOrderConfirmationRequest) returns (Empty) {}
-}
+// -------------Order-----------------
 
 message OrderItem {
     CartItem item = 1;
@@ -212,12 +208,6 @@ message OrderResult {
     Address  shipping_address = 4;
     repeated OrderItem items = 5;
 }
-
-message SendOrderConfirmationRequest {
-    string email = 1;
-    OrderResult order = 2;
-}
-
 
 // -------------Checkout service-----------------
 

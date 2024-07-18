@@ -16,7 +16,6 @@ import (
 type CheckoutService struct {
 	CartService           pb.CartService
 	CurrencyService       pb.CurrencyService
-	EmailService          pb.EmailService
 	PaymentService        pb.PaymentService
 	ProductCatalogService pb.ProductCatalogService
 	ShippingService       pb.ShippingService
@@ -69,11 +68,6 @@ func (s *CheckoutService) PlaceOrder(ctx context.Context, in *pb.PlaceOrderReque
 		Items:              prep.orderItems,
 	}
 
-	if err := s.sendOrderConfirmation(ctx, in.Email, orderResult); err != nil {
-		logger.Warnf("failed to send order confirmation to %q: %+v", in.Email, err)
-	} else {
-		logger.Infof("order confirmation email sent to %q", in.Email)
-	}
 	out.Order = orderResult
 	return nil
 }
@@ -171,14 +165,6 @@ func (s *CheckoutService) chargeCard(ctx context.Context, amount *pb.Money, paym
 		return "", fmt.Errorf("could not charge the card: %+v", err)
 	}
 	return paymentResp.GetTransactionId(), nil
-}
-
-func (s *CheckoutService) sendOrderConfirmation(ctx context.Context, email string, order *pb.OrderResult) error {
-	_, err := s.EmailService.SendOrderConfirmation(ctx, &pb.SendOrderConfirmationRequest{
-		Email: email,
-		Order: order,
-	})
-	return err
 }
 
 func (s *CheckoutService) shipOrder(ctx context.Context, address *pb.Address, items []*pb.CartItem) (string, error) {

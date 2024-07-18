@@ -72,7 +72,6 @@ func main() {
 	checkoutService := &handler.CheckoutService{
 		CartService:           pb.NewCartService(cfg.CartService, client),
 		CurrencyService:       pb.NewCurrencyService(cfg.CurrencyService, client),
-		EmailService:          pb.NewEmailService(cfg.EmailService, client),
 		PaymentService:        pb.NewPaymentService(cfg.PaymentService, client),
 		ProductCatalogService: pb.NewProductCatalogService(cfg.ProductCatalogService, client),
 		ShippingService:       pb.NewShippingService(cfg.ShippingService, client),

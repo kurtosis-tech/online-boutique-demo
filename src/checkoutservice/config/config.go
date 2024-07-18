@@ -13,7 +13,6 @@ type Config struct {
 	Tracing               TracingConfig
 	CartService           string
 	CurrencyService       string
-	EmailService          string
 	PaymentService        string
 	ProductCatalogService string
 	ShippingService       string
@@ -32,7 +31,6 @@ var cfg *Config = &Config{
 	Port:                  5050,
 	CartService:           "cartservice",
 	CurrencyService:       "currencyservice",
-	EmailService:          "emailservice",
 	PaymentService:        "paymentservice",
 	ProductCatalogService: "productcatalogservice",
 	ShippingService:       "shippingservice",
