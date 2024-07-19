@@ -11,4 +11,5 @@ use (
 	./src/productcatalogservice
 	./src/recommendationservice
 	./src/shippingservice
+	./src/externalcurrencyservice
 )

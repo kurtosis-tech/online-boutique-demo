@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/go-micro/demo/externalcurrencyservice"
 	"net/http"
 	"os"
 	"time"
@@ -107,7 +108,7 @@ func main() {
 		adService:             pb.NewAdService(cfg.AdService, client),
 		cartService:           pb.NewCartService(cfg.CartService, client),
 		checkoutService:       pb.NewCheckoutService(cfg.CheckoutService, client),
-		currencyService:       pb.NewCurrencyService(cfg.CurrencyService, client),
+		currencyService:       externalcurrencyservice.NewFreeCurrencyAPI(),
 		productCatalogService: pb.NewProductCatalogService(cfg.ProductCatalogService, client),
 		recommendationService: pb.NewRecommendationService(cfg.RecommendationService, client),
 		shippingService:       pb.NewShippingService(cfg.ShippingService, client),
