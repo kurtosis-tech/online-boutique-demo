@@ -24,6 +24,7 @@ FROM scratch
 COPY --from=builder /go/src/hipstershop/frontend /hipstershop/frontend
 COPY ./templates ./templates
 COPY ./static ./static
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
 # Definition of this variable is used by 'skaffold debug' to identify a golang binary.
 # Default behavior - a failure prints a stack trace for the current goroutine.
