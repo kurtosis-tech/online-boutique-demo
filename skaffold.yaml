@@ -59,18 +59,18 @@ deploy:
 #         path: /build/artifacts/7/docker/dockerfile
 #         value: Dockerfile.debug
 
-#---
-#apiVersion: skaffold/v2beta27
-#kind: Config
-#metadata:
-#  name: loadgenerator
-#requires:
-#  - configs: [hipstershop]
-#build:
-#  artifacts:
-#    - image: loadgenerator
-#      context: src/loadgenerator
-#deploy:
-#  kubectl:
-#    manifests:
-#      - ./kubernetes-manifests/loadgenerator.yaml
+---
+apiVersion: skaffold/v2beta27
+kind: Config
+metadata:
+  name: loadgenerator
+requires:
+  - configs: [hipstershop]
+build:
+  artifacts:
+    - image: loadgenerator
+      context: src/loadgenerator
+deploy:
+  kubectl:
+    manifests:
+      - ./kubernetes-manifests/loadgenerator.yaml
