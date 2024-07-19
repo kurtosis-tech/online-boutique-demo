@@ -13,6 +13,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 )
 
 const (
@@ -48,10 +49,11 @@ type LatestRates map[string]float64
 
 type FreeCurrencyAPI struct {
 	httpClient *http.Client
+	cache      *Cache
 }
 
 func NewFreeCurrencyAPI() *FreeCurrencyAPI {
-	return &FreeCurrencyAPI{httpClient: http.DefaultClient}
+	return &FreeCurrencyAPI{httpClient: http.DefaultClient, cache: NewCache()}
 }
 
 func (c *FreeCurrencyAPI) GetSupportedCurrencies(ctx context.Context, _ *fep.Empty, _ ...client.CallOption) (*fep.GetSupportedCurrenciesResponse, error) {
@@ -75,7 +77,7 @@ func (c *FreeCurrencyAPI) GetSupportedCurrencies(ctx context.Context, _ *fep.Emp
 	}
 	httpRequestWithContext := httpRequest.WithContext(ctx)
 
-	_, httpResponseBodyBytes, err := c.doHttpRequest(httpRequestWithContext)
+	httpResponseBodyBytes, err := c.doHttpRequest(httpRequestWithContext)
 	if err != nil {
 		return nil, err
 	}
@@ -149,7 +151,7 @@ func (c *FreeCurrencyAPI) getLatestRatesFromAPI(ctx context.Context, from string
 	}
 	httpRequestWithContext := httpRequest.WithContext(ctx)
 
-	_, httpResponseBodyBytes, err := c.doHttpRequest(httpRequestWithContext)
+	httpResponseBodyBytes, err := c.doHttpRequest(httpRequestWithContext)
 	if err != nil {
 		return nil, err
 	}
@@ -165,7 +167,6 @@ func (c *FreeCurrencyAPI) getLatestRatesFromAPI(ctx context.Context, from string
 func (c *FreeCurrencyAPI) doHttpRequest(
 	request *http.Request,
 ) (
-	resultResponse *http.Response,
 	resultResponseBodyBytes []byte,
 	resultErr error,
 ) {
@@ -173,20 +174,29 @@ func (c *FreeCurrencyAPI) doHttpRequest(
 	var (
 		httpResponseBodyBytes []byte
 		err                   error
+		ok                    bool
+		urlStr                = request.URL.String()
 	)
+
+	if httpResponseBodyBytes, ok = c.cache.Get(urlStr); ok {
+		fmt.Println("Cache hit for", urlStr)
+		return httpResponseBodyBytes, nil
+	}
 
 	httpResponse, err := c.httpClient.Do(request)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 	defer httpResponse.Body.Close()
 
 	if httpResponse.StatusCode == http.StatusOK {
 		httpResponseBodyBytes, err = io.ReadAll(httpResponse.Body)
 		if err != nil {
-			return nil, nil, err
+			return nil, err
 		}
 	}
 
-	return httpResponse, httpResponseBodyBytes, nil
+	c.cache.Set(urlStr, httpResponseBodyBytes, 20*time.Minute)
+
+	return httpResponseBodyBytes, nil
 }
