@@ -1,4 +1,4 @@
-module github.com/go-micro/demo/frontend
+module github.com/kurtosis-tech/online-boutique-demo/frontend
 
 go 1.19
 

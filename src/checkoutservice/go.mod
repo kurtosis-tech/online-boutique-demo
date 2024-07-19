@@ -1,4 +1,4 @@
-module github.com/go-micro/demo/checkoutservice
+module github.com/kurtosis-tech/online-boutique-demo/checkoutservice
 
 go 1.19
 

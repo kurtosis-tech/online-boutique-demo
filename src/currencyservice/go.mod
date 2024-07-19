@@ -1,4 +1,4 @@
-module github.com/go-micro/demo/currencyservice
+module github.com/kurtosis-tech/online-boutique-demo/currencyservice
 
 go 1.19
 
