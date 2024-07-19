@@ -12,7 +12,6 @@ type Config struct {
 	AdService             string
 	CartService           string
 	CheckoutService       string
-	CurrencyService       string
 	ProductCatalogService string
 	RecommendationService string
 	ShippingService       string
@@ -32,7 +31,6 @@ var cfg *Config = &Config{
 	AdService:             "adservice",
 	CartService:           "cartservice",
 	CheckoutService:       "checkoutservice",
-	CurrencyService:       "currencyservice",
 	ProductCatalogService: "productcatalogservice",
 	RecommendationService: "recommendationservice",
 	ShippingService:       "shippingservice",
