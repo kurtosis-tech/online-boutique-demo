@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	fep "github.com/go-micro/demo/frontend/proto"
+	fep "github.com/kurtosis-tech/online-boutique-demo/frontend/proto"
 	"go-micro.dev/v4/client"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

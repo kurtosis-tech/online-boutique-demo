@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/go-micro/demo/externalcurrencyservice"
+	"github.com/kurtosis-tech/online-boutique-demo/externalcurrencyservice"
 	"net/http"
 	"os"
 	"time"
