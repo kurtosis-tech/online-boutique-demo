@@ -15,7 +15,7 @@
 syntax = "proto3";
 
 package hipstershop;
-option go_package = "./proto;demo";
+option go_package = "./proto;proto";
 
 // -----------------Cart service-----------------
 
