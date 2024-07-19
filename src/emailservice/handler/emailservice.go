@@ -5,7 +5,7 @@ import (
 
 	"go-micro.dev/v4/logger"
 
-	pb "github.com/go-micro/demo/emailservice/proto"
+	pb "github.com/kurtosis-tech/online-boutique-demo/emailservice/proto"
 )
 
 type DummyEmailService struct{}

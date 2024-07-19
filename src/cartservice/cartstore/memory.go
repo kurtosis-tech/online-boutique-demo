@@ -4,7 +4,7 @@ import (
 	"context"
 	"sync"
 
-	pb "github.com/go-micro/demo/cartservice/proto"
+	pb "github.com/kurtosis-tech/online-boutique-demo/cartservice/proto"
 )
 
 type memoryCartStore struct {

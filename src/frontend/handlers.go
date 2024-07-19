@@ -30,8 +30,8 @@ import (
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 
-	"github.com/go-micro/demo/frontend/money"
-	pb "github.com/go-micro/demo/frontend/proto"
+	"github.com/kurtosis-tech/online-boutique-demo/frontend/money"
+	pb "github.com/kurtosis-tech/online-boutique-demo/frontend/proto"
 )
 
 type platformDetails struct {

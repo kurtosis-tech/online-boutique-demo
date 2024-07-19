@@ -1,4 +1,4 @@
-module github.com/go-micro/demo/cartservice
+module github.com/kurtosis-tech/online-boutique-demo/cartservice
 
 go 1.19
 

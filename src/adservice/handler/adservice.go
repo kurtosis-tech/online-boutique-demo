@@ -4,7 +4,7 @@ import (
 	"context"
 	"math/rand"
 
-	pb "github.com/go-micro/demo/adservice/proto"
+	pb "github.com/kurtosis-tech/online-boutique-demo/adservice/proto"
 )
 
 const MAX_ADS_TO_SERVE = 2

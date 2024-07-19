@@ -16,10 +16,10 @@ import (
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/propagation"
 
-	"github.com/go-micro/demo/cartservice/cartstore"
-	"github.com/go-micro/demo/cartservice/config"
-	"github.com/go-micro/demo/cartservice/handler"
-	pb "github.com/go-micro/demo/cartservice/proto"
+	"github.com/kurtosis-tech/online-boutique-demo/cartservice/cartstore"
+	"github.com/kurtosis-tech/online-boutique-demo/cartservice/config"
+	"github.com/kurtosis-tech/online-boutique-demo/cartservice/handler"
+	pb "github.com/kurtosis-tech/online-boutique-demo/cartservice/proto"
 )
 
 var (

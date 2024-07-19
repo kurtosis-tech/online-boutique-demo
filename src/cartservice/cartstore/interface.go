@@ -3,7 +3,7 @@ package cartstore
 import (
 	"context"
 
-	pb "github.com/go-micro/demo/cartservice/proto"
+	pb "github.com/kurtosis-tech/online-boutique-demo/cartservice/proto"
 )
 
 type CartStore interface {

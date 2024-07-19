@@ -19,7 +19,7 @@ import (
 	"reflect"
 	"testing"
 
-	pb "github.com/go-micro/demo/frontend/proto"
+	pb "github.com/kurtosis-tech/online-boutique-demo/frontend/proto"
 )
 
 func mmc(u int64, n int32, c string) *pb.Money { return &pb.Money{Units: u, Nanos: n, CurrencyCode: c} }

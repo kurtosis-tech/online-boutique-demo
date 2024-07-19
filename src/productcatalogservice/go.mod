@@ -1,4 +1,4 @@
-module github.com/go-micro/demo/productcatalogservice
+module github.com/kurtosis-tech/online-boutique-demo/productcatalogservice
 
 go 1.19
 

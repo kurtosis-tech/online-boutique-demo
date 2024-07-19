@@ -3,8 +3,8 @@ package handler
 import (
 	"context"
 
-	"github.com/go-micro/demo/cartservice/cartstore"
-	pb "github.com/go-micro/demo/cartservice/proto"
+	"github.com/kurtosis-tech/online-boutique-demo/cartservice/cartstore"
+	pb "github.com/kurtosis-tech/online-boutique-demo/cartservice/proto"
 )
 
 type CartService struct {
