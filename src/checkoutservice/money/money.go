@@ -17,7 +17,7 @@ package money
 import (
 	"errors"
 
-	pb "github.com/go-micro/demo/checkoutservice/proto"
+	pb "github.com/kurtosis-tech/online-boutique-demo/checkoutservice/proto"
 )
 
 const (

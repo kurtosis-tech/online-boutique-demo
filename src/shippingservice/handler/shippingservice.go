@@ -6,7 +6,7 @@ import (
 
 	"go-micro.dev/v4/logger"
 
-	pb "github.com/go-micro/demo/shippingservice/proto"
+	pb "github.com/kurtosis-tech/online-boutique-demo/shippingservice/proto"
 )
 
 type ShippingService struct{}

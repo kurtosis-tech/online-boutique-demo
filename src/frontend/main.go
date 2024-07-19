@@ -18,8 +18,8 @@ import (
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/propagation"
 
-	"github.com/go-micro/demo/frontend/config"
-	pb "github.com/go-micro/demo/frontend/proto"
+	"github.com/kurtosis-tech/online-boutique-demo/frontend/config"
+	pb "github.com/kurtosis-tech/online-boutique-demo/frontend/proto"
 )
 
 const (
