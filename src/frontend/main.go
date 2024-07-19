@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/kurtosis-tech/online-boutique-demo/externalcurrencyservice"
+	"github.com/kurtosis-tech/online-boutique-demo/frontend/externalcurrencyservice"
 	"net/http"
 	"os"
 	"time"

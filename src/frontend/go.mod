@@ -16,6 +16,7 @@ require (
 	go.opentelemetry.io/otel v1.11.0
 	go.opentelemetry.io/otel/exporters/jaeger v1.11.0
 	go.opentelemetry.io/otel/sdk v1.11.0
+	google.golang.org/grpc v1.42.0
 	google.golang.org/protobuf v1.27.1
 )
 
@@ -61,7 +62,6 @@ require (
 	golang.org/x/sys v0.0.0-20220919091848-fb04ddd9f9c8 // indirect
 	golang.org/x/text v0.3.6 // indirect
 	google.golang.org/genproto v0.0.0-20211020151524-b7c3a969101a // indirect
-	google.golang.org/grpc v1.42.0 // indirect
 	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
 )
