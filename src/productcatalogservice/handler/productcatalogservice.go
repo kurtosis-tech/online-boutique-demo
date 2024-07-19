@@ -14,7 +14,7 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/encoding/protojson"
 
-	pb "github.com/go-micro/demo/productcatalogservice/proto"
+	pb "github.com/kurtosis-tech/online-boutique-demo/productcatalogservice/proto"
 )
 
 var reloadCatalog bool

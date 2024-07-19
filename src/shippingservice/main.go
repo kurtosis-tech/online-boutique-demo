@@ -15,9 +15,9 @@ import (
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/propagation"
 
-	"github.com/go-micro/demo/shippingservice/config"
-	"github.com/go-micro/demo/shippingservice/handler"
-	pb "github.com/go-micro/demo/shippingservice/proto"
+	"github.com/kurtosis-tech/online-boutique-demo/shippingservice/config"
+	"github.com/kurtosis-tech/online-boutique-demo/shippingservice/handler"
+	pb "github.com/kurtosis-tech/online-boutique-demo/shippingservice/proto"
 )
 
 var (

@@ -1,4 +1,4 @@
-module github.com/go-micro/demo/emailservice
+module github.com/kurtosis-tech/online-boutique-demo/emailservice
 
 go 1.19
 

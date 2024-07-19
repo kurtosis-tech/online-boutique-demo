@@ -6,7 +6,7 @@ import (
 
 	"go-micro.dev/v4/logger"
 
-	pb "github.com/go-micro/demo/recommendationservice/proto"
+	pb "github.com/kurtosis-tech/online-boutique-demo/recommendationservice/proto"
 )
 
 type RecommendationService struct {

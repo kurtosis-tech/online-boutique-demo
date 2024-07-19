@@ -1,4 +1,4 @@
-module github.com/go-micro/demo/paymentservice
+module github.com/kurtosis-tech/online-boutique-demo/paymentservice
 
 go 1.19
 

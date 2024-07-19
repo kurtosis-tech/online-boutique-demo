@@ -1,4 +1,4 @@
-module github.com/go-micro/demo/shippingservice
+module github.com/kurtosis-tech/online-boutique-demo/shippingservice
 
 go 1.19
 

@@ -1,4 +1,4 @@
-module github.com/go-micro/demo/adservice
+module github.com/kurtosis-tech/online-boutique-demo/adservice
 
 go 1.19
 

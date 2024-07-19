@@ -9,8 +9,8 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/go-micro/demo/checkoutservice/money"
-	pb "github.com/go-micro/demo/checkoutservice/proto"
+	"github.com/kurtosis-tech/online-boutique-demo/checkoutservice/money"
+	pb "github.com/kurtosis-tech/online-boutique-demo/checkoutservice/proto"
 )
 
 type CheckoutService struct {

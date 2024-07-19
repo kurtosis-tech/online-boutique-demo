@@ -1,4 +1,4 @@
-module github.com/go-micro/demo/recommendationservice
+module github.com/kurtosis-tech/online-boutique-demo/recommendationservice
 
 go 1.19
 

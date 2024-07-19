@@ -6,7 +6,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	pb "github.com/go-micro/demo/frontend/proto"
+	pb "github.com/kurtosis-tech/online-boutique-demo/frontend/proto"
 )
 
 const (

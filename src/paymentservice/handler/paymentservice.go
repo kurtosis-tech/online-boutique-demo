@@ -10,7 +10,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	pb "github.com/go-micro/demo/paymentservice/proto"
+	pb "github.com/kurtosis-tech/online-boutique-demo/paymentservice/proto"
 )
 
 type PaymentService struct{}
