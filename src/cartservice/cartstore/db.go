@@ -1,8 +1,10 @@
 package cartstore
 
 import (
+	"context"
 	"fmt"
 	"github.com/pkg/errors"
+	"go-micro.dev/v4/logger"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -35,5 +37,20 @@ func (db *Db) Close() error {
 		return errors.Wrap(err, "An error occurred closing the database connection")
 	}
 
+	return nil
+}
+
+func (db *Db) AddItem(ctx context.Context, userID, productID string, quantity int32) error {
+	item := &Item{
+		UserID:    userID,
+		ProductID: productID,
+		Quantity:  quantity,
+	}
+
+	result := db.db.Create(item)
+	if result.Error != nil {
+		return errors.Wrap(result.Error, fmt.Sprintf("An internal error has occurred creating the item '%+v'", item))
+	}
+	logger.Debugf("Success! Stored item %+v in database", item)
 	return nil
 }
