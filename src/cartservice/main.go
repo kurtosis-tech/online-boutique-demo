@@ -69,8 +69,15 @@ func main() {
 	}
 	srv.Init(opts...)
 
+	dbConfig := config.Db()
+
+	db, err := cartstore.NewDb(dbConfig.Host, dbConfig.Username, dbConfig.Password, dbConfig.Name, dbConfig.Port)
+	if err != nil {
+		log.Fatal(err)
+	}
+	
 	// Register handler
-	if err := pb.RegisterCartServiceHandler(srv.Server(), &handler.CartService{Store: cartstore.NewMemoryCartStore()}); err != nil {
+	if err := pb.RegisterCartServiceHandler(srv.Server(), &handler.CartService{Store: db}); err != nil {
 		log.Fatal(err)
 	}
 	if err := pb.RegisterHealthHandler(srv.Server(), new(handler.Health)); err != nil {

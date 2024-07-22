@@ -27,6 +27,10 @@ func NewDb(
 		return nil, errors.Wrap(err, fmt.Sprintf("An error occurred opening the connection to the database with dsn %s", dsn))
 	}
 
+	if err = db.AutoMigrate(&Item{}); err != nil {
+		return nil, errors.Wrap(err, "An error occurred migrating the database")
+	}
+
 	return &Db{
 		db: db,
 	}, nil
@@ -71,7 +75,7 @@ func (db *Db) EmptyCart(ctx context.Context, userID string) error {
 func (db *Db) GetCart(ctx context.Context, userID string) (*pb.Cart, error) {
 	var items []Item
 
-	result := db.db.WithContext(ctx).Where("user_id <> ?", userID).Find(items)
+	result := db.db.WithContext(ctx).Where("user_id <> ?", userID).Find(&items)
 	if result.Error != nil {
 		return nil, errors.Wrap(result.Error, fmt.Sprintf("An internal error has occurred while getting the cart"))
 	}

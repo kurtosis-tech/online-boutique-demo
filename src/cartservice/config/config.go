@@ -23,7 +23,7 @@ type DbConfig struct {
 	Username string
 	Password string
 	Host     string
-	Port     uint16
+	Port     uint32
 	Name     string
 }
 
@@ -50,6 +50,10 @@ func Redis() RedisConfig {
 
 func Tracing() TracingConfig {
 	return cfg.Tracing
+}
+
+func Db() DbConfig {
+	return cfg.Db
 }
 
 func Load() error {
