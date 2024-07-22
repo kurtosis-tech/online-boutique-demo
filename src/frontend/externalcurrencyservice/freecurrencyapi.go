@@ -196,7 +196,9 @@ func (c *FreeCurrencyAPI) doHttpRequest(
 		}
 	}
 
-	c.cache.Set(urlStr, httpResponseBodyBytes, 20*time.Minute)
+	// saving the response for a week because app.freecurrencyapi.com has a low limit
+	// and this is a demo project, it's not important to have the latest data
+	c.cache.Set(urlStr, httpResponseBodyBytes, 168*time.Hour)
 
 	return httpResponseBodyBytes, nil
 }
