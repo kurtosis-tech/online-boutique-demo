@@ -1,4 +1,4 @@
-package externalcurrencyservice
+package currencyexternalservice
 
 import (
 	"sync"

@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/kurtosis-tech/online-boutique-demo/frontend/externalcurrencyservice"
+	"github.com/kurtosis-tech/online-boutique-demo/frontend/currencyexternalservice"
 	"net/http"
 	"os"
 	"time"
@@ -108,7 +108,7 @@ func main() {
 		adService:             pb.NewAdService(cfg.AdService, client),
 		cartService:           pb.NewCartService(cfg.CartService, client),
 		checkoutService:       pb.NewCheckoutService(cfg.CheckoutService, client),
-		currencyService:       externalcurrencyservice.NewFreeCurrencyAPI(),
+		currencyService:       currencyexternalservice.CreateService(),
 		productCatalogService: pb.NewProductCatalogService(cfg.ProductCatalogService, client),
 		recommendationService: pb.NewRecommendationService(cfg.RecommendationService, client),
 		shippingService:       pb.NewShippingService(cfg.ShippingService, client),
