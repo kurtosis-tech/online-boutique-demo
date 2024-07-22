@@ -3,6 +3,7 @@ package cartstore
 import (
 	"context"
 	"fmt"
+	pb "github.com/kurtosis-tech/online-boutique-demo/cartservice/proto"
 	"github.com/pkg/errors"
 	"go-micro.dev/v4/logger"
 	"gorm.io/driver/postgres"
@@ -61,4 +62,30 @@ func (db *Db) EmptyCart(ctx context.Context, userID string) error {
 		return errors.Wrap(result.Error, fmt.Sprintf("An internal error has occurred while empty the cart"))
 	}
 	return nil
+}
+
+func (db *Db) GetCart(ctx context.Context, userID string) (*pb.Cart, error) {
+	var items []Item
+
+	result := db.db.WithContext(ctx).Where("user_id <> ?", userID).Find(items)
+	if result.Error != nil {
+		return nil, errors.Wrap(result.Error, fmt.Sprintf("An internal error has occurred while getting the cart"))
+	}
+
+	cartItems := []*pb.CartItem{}
+
+	for _, item := range items {
+		cartItemObj := &pb.CartItem{
+			ProductId: item.ProductID,
+			Quantity:  item.Quantity,
+		}
+		cartItems = append(cartItems, cartItemObj)
+	}
+
+	cart := &pb.Cart{
+		UserId: userID,
+		Items:  cartItems,
+	}
+
+	return cart, nil
 }
