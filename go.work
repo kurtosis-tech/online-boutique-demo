@@ -4,7 +4,6 @@ use (
 	./src/adservice
 	./src/cartservice
 	./src/checkoutservice
-	./src/currencyservice
 	./src/emailservice
 	./src/frontend
 	./src/paymentservice
