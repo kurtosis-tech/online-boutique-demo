@@ -15,9 +15,13 @@ type Db struct {
 }
 
 func NewDb(
-	dbConnInfo *connectionInfo,
+	host string,
+	username string,
+	password string,
+	name string,
+	port uint32,
 ) (*Db, error) {
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=disable", dbConnInfo.host, dbConnInfo.username, dbConnInfo.password, dbConnInfo.databaseName, dbConnInfo.port)
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=disable", host, username, password, name, port)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		return nil, errors.Wrap(err, fmt.Sprintf("An error occurred opening the connection to the database with dsn %s", dsn))

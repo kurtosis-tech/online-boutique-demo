@@ -12,10 +12,19 @@ type Config struct {
 	Port    int
 	Redis   RedisConfig
 	Tracing TracingConfig
+	Db      DbConfig
 }
 
 type RedisConfig struct {
 	Addr string
+}
+
+type DbConfig struct {
+	Username string
+	Password string
+	Host     string
+	Port     uint16
+	Name     string
 }
 
 type TracingConfig struct {
