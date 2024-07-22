@@ -47,10 +47,18 @@ func (db *Db) AddItem(ctx context.Context, userID, productID string, quantity in
 		Quantity:  quantity,
 	}
 
-	result := db.db.Create(item)
+	result := db.db.WithContext(ctx).Create(item)
 	if result.Error != nil {
 		return errors.Wrap(result.Error, fmt.Sprintf("An internal error has occurred creating the item '%+v'", item))
 	}
 	logger.Debugf("Success! Stored item %+v in database", item)
+	return nil
+}
+
+func (db *Db) EmptyCart(ctx context.Context, userID string) error {
+	result := db.db.WithContext(ctx).Where("1 = 1").Delete(&Item{})
+	if result.Error != nil {
+		return errors.Wrap(result.Error, fmt.Sprintf("An internal error has occurred while empty the cart"))
+	}
 	return nil
 }
