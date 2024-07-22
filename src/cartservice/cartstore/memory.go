@@ -13,6 +13,12 @@ type memoryCartStore struct {
 	carts map[string]map[string]int32
 }
 
+func NewMemoryCartStore() CartStore {
+	return &memoryCartStore{
+		carts: make(map[string]map[string]int32),
+	}
+}
+
 func (s *memoryCartStore) AddItem(ctx context.Context, userID, productID string, quantity int32) error {
 	s.Lock()
 	defer s.Unlock()
