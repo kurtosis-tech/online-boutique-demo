@@ -2,7 +2,7 @@ package freecurrency
 
 import (
 	"fmt"
-	"github.com/kurtosis-tech/online-boutique-demo/frontend/currencyexternalservice/config"
+	"github.com/kurtosis-tech/online-boutique-demo/src/currencyexternalapi/config"
 	"net/url"
 	"strings"
 	"time"
