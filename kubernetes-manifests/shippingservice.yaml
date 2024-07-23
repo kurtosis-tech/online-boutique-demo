@@ -28,7 +28,7 @@ spec:
       serviceAccountName: go-micro
       containers:
         - name: server
-          image: shippingservice
+          image: kurtosistech/obd-shippingservice
           ports:
             - containerPort: 50051
           env:

@@ -15,7 +15,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
         - name: server
-          image: productcatalogservice
+          image: kurtosistech/obd-productcatalogservice
           ports:
             - containerPort: 3550
           env:
