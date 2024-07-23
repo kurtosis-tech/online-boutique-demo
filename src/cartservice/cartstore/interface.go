@@ -11,9 +11,3 @@ type CartStore interface {
 	EmptyCart(ctx context.Context, userID string) error
 	GetCart(ctx context.Context, userID string) (*pb.Cart, error)
 }
-
-func NewMemoryCartStore() CartStore {
-	return &memoryCartStore{
-		carts: make(map[string]map[string]int32),
-	}
-}

@@ -36,6 +36,7 @@ build:
 deploy:
   kubectl:
     manifests:
+      - ./kubernetes-manifests/postgres.yaml
       - ./kubernetes-manifests/adservice.yaml
       - ./kubernetes-manifests/cartservice.yaml
       - ./kubernetes-manifests/checkoutservice.yaml

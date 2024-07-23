@@ -12,10 +12,19 @@ type Config struct {
 	Port    int
 	Redis   RedisConfig
 	Tracing TracingConfig
+	Db      DbConfig
 }
 
 type RedisConfig struct {
 	Addr string
+}
+
+type DbConfig struct {
+	Username string
+	Password string
+	Host     string
+	Port     uint32
+	Name     string
 }
 
 type TracingConfig struct {
@@ -41,6 +50,10 @@ func Redis() RedisConfig {
 
 func Tracing() TracingConfig {
 	return cfg.Tracing
+}
+
+func Db() DbConfig {
+	return cfg.Db
 }
 
 func Load() error {

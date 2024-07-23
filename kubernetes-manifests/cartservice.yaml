@@ -41,6 +41,16 @@ spec:
               value: "true"
             - name: TRACING_JAEGER_URL
               value: "http://jaeger-collector.default.svc.cluster.local:14268/api/traces"
+            - name: DB_USERNAME
+              value: "postgresuser"
+            - name: DB_PASSWORD
+              value: "postgrespass"
+            - name: DB_HOST
+              value: "postgres"
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_NAME
+              value: "cart"
           # resources:
           #   requests:
           #     cpu: 100m
