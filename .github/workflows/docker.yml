@@ -10,7 +10,6 @@ on:
 
 jobs:
   adservice:
-    if: github.ref == env.MAIN_BRANCH
     runs-on: ubuntu-latest
     permissions:
       contents: read
