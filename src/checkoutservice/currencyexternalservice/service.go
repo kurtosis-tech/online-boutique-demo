@@ -2,7 +2,7 @@ package currencyexternalservice
 
 import (
 	"context"
-	fep "github.com/kurtosis-tech/online-boutique-demo/frontend/proto"
+	ckoutp "github.com/kurtosis-tech/online-boutique-demo/checkoutservice/proto"
 	"github.com/kurtosis-tech/online-boutique-demo/src/currencyexternalapi"
 	"go-micro.dev/v4/client"
 )
@@ -16,7 +16,7 @@ func NewService(primaryApi *currencyexternalapi.CurrencyAPI, secondaryApi *curre
 	return &Service{primaryApi: primaryApi, secondaryApi: secondaryApi}
 }
 
-func (s *Service) GetSupportedCurrencies(ctx context.Context, _ *fep.Empty, _ ...client.CallOption) (*fep.GetSupportedCurrenciesResponse, error) {
+func (s *Service) GetSupportedCurrencies(ctx context.Context, _ *ckoutp.Empty, _ ...client.CallOption) (*ckoutp.GetSupportedCurrenciesResponse, error) {
 
 	var (
 		currencyCodes []string
@@ -31,17 +31,17 @@ func (s *Service) GetSupportedCurrencies(ctx context.Context, _ *fep.Empty, _ ..
 		}
 	}
 
-	response := &fep.GetSupportedCurrenciesResponse{
+	response := &ckoutp.GetSupportedCurrenciesResponse{
 		CurrencyCodes: currencyCodes,
 	}
 
 	return response, nil
 }
 
-func (s *Service) Convert(ctx context.Context, in *fep.CurrencyConversionRequest, _ ...client.CallOption) (*fep.Money, error) {
+func (s *Service) Convert(ctx context.Context, in *ckoutp.CurrencyConversionRequest, _ ...client.CallOption) (*ckoutp.Money, error) {
 
 	var (
-		money = &fep.Money{}
+		money = &ckoutp.Money{}
 		code  string
 		units int64
 		nanos int32

@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"github.com/kurtosis-tech/online-boutique-demo/checkoutservice/currencyexternalservice"
 	"strings"
 	"time"
 
@@ -71,7 +72,7 @@ func main() {
 	cfg, client := config.Get(), srv.Client()
 	checkoutService := &handler.CheckoutService{
 		CartService:           pb.NewCartService(cfg.CartService, client),
-		CurrencyService:       pb.NewCurrencyService(cfg.CurrencyService, client),
+		CurrencyService:       currencyexternalservice.CreateService(),
 		EmailService:          pb.NewEmailService(cfg.EmailService, client),
 		PaymentService:        pb.NewPaymentService(cfg.PaymentService, client),
 		ProductCatalogService: pb.NewProductCatalogService(cfg.ProductCatalogService, client),
