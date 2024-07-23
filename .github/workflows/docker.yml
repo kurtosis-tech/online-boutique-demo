@@ -1,9 +1,12 @@
 name: Docker
 
 on:
-  push:
+  pull_request:
+    branches:
+      - "main"
+  # push:
     # Publish semver tags as releases.
-    tags: ["*"]
+    # tags: ["*"]
 
 jobs:
   if: github.ref == env.MAIN_BRANCH
