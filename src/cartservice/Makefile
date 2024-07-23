@@ -30,4 +30,4 @@ test:
 
 .PHONY: docker
 docker:
-	@docker build -t cartservice:latest .
+	@docker build -t kurtosistech/obd-cartservice:latest .
