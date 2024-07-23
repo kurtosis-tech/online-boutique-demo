@@ -9,8 +9,8 @@ on:
     # tags: ["*"]
 
 jobs:
-  if: github.ref == env.MAIN_BRANCH
   adservice:
+    if: github.ref == env.MAIN_BRANCH
     runs-on: ubuntu-latest
     permissions:
       contents: read
