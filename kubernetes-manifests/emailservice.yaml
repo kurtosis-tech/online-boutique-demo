@@ -11,7 +11,7 @@ spec:
       labels:
         app: emailservice
     spec:
-      serviceAccountName: go-micro 
+      serviceAccountName: kardinal-manager
       terminationGracePeriodSeconds: 5
       containers:
         - name: server
