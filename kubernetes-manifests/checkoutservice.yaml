@@ -11,7 +11,7 @@ spec:
       labels:
         app: checkoutservice
     spec:
-      serviceAccountName: go-micro
+      serviceAccountName: kardinal-manager
       containers:
         - name: server
           image: kurtosistech/obd-checkoutservice

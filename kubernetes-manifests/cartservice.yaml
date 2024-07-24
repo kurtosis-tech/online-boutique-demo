@@ -11,7 +11,7 @@ spec:
       labels:
         app: cartservice
     spec:
-      serviceAccountName: go-micro 
+      serviceAccountName: kardinal-manager
       terminationGracePeriodSeconds: 5
       securityContext:
         fsGroup: 1000

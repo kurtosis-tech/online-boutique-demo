@@ -13,7 +13,7 @@ spec:
       annotations:
         sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
-      serviceAccountName: go-micro 
+      serviceAccountName: kardinal-manager
       containers:
         - name: server
           image: kurtosistech/obd-frontend
