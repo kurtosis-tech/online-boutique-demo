@@ -310,6 +310,9 @@ main {
   margin-top: 56px;
   font-size: 36px;
   font-weight: normal;
+  padding: 8px;
+  background: #4cc8c6;
+  color: white;
 }
 
 .hot-products-row {
@@ -327,7 +330,8 @@ main {
 .hot-product-card img {
   width: 100%;
   height: auto;
-  border-radius: 20% 0 20% 20%;
+  border-radius: 20%;
+  border: 6px solid #4cc8c6;
 }
 
 .hot-product-card-name {
