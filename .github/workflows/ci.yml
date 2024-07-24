@@ -17,7 +17,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
-          go-version: 1.18
+          go-version: 1.19
 
       - name: Test AdService
         run: |
@@ -32,12 +32,44 @@ jobs:
           go vet ./...
           go test -v ./...
 
-      - name: Notify of test failure
-        if: failure()
-        id: slack
-        uses: slackapi/slack-github-action@v1.18.0
-        with:
-          channel-id: 'github-actions'
-          slack-message: "Dashboard tests: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      - name: Test CheckoutService
+        run: |
+          cd src/checkoutservice
+          go vet ./...
+          go test -v ./...
+
+      - name: Test CurrencyExternalAPI
+        run: |
+          cd src/currencyexternalapi
+          go vet ./...
+          go test -v ./...
+
+      - name: Test EmailService
+        run: |
+          cd src/emailservice
+          go vet ./...
+          go test -v ./...
+
+      - name: Test Frontend
+        run: |
+          cd src/frontend
+          go vet ./...
+          go test -v ./...
+
+      - name: Test PaymentService
+        run: |
+          cd src/paymentservice
+          go vet ./...
+          go test -v ./...
+
+      - name: Test RecommendationService
+        run: |
+          cd src/recommendationservice
+          go vet ./...
+          go test -v ./...
+
+      - name: Test ShippingService
+        run: |
+          cd src/shippingservice
+          go vet ./...
+          go test -v ./...

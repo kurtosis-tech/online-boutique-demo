@@ -29,4 +29,4 @@ test:
 
 .PHONY: docker
 docker:
-	@docker build -t paymentservice:latest .
+	@docker build -t kurtosistech/obd-paymentservice:latest .

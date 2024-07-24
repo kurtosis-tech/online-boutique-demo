@@ -30,4 +30,4 @@ test:
 
 .PHONY: docker
 docker:
-	@docker build -t emailservice:latest .
+	@docker build -t kurtosistech/obd-emailservice:latest .

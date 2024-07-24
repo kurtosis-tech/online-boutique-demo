@@ -30,4 +30,4 @@ test:
 
 .PHONY: docker
 docker:
-	@docker build -t shippingservice:latest .
+	@docker build -t kurtosistech/obd-shippingservice:latest .

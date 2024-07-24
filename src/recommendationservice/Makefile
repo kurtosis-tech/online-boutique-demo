@@ -29,4 +29,4 @@ test:
 
 .PHONY: docker
 docker:
-	@docker build -t recommendationservice:latest .
+	@docker build -t kurtosistech/obd-recommendationservice:latest .

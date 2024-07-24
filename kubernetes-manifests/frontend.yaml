@@ -16,7 +16,7 @@ spec:
       serviceAccountName: go-micro 
       containers:
         - name: server
-          image: frontend
+          image: kurtosistech/obd-frontend
           ports:
             - containerPort: 8080
           readinessProbe:

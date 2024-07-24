@@ -29,4 +29,4 @@ test:
 
 .PHONY: docker
 docker:
-	@docker build -t adservice:latest .
+	@docker build -t kurtosistech/obd-adservice:latest .

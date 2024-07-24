@@ -14,7 +14,7 @@ spec:
       serviceAccountName: go-micro
       containers:
         - name: server
-          image: checkoutservice
+          image: kurtosistech/obd-checkoutservice
           ports:
             - containerPort: 5050
           readinessProbe:

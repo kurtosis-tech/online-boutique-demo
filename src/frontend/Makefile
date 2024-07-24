@@ -28,4 +28,4 @@ test:
 
 .PHONY: docker
 docker:
-	@docker build -t frontend:latest .
+	@docker build -t kurtosistech/obd-frontend:latest .

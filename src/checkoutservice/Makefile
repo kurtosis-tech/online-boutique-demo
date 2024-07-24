@@ -30,4 +30,4 @@ test:
 
 .PHONY: docker
 docker:
-	@docker build -t checkoutservice:latest .
+	@docker build -t kurtosistech/obd-checkoutservice:latest .

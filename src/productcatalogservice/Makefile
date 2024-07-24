@@ -30,4 +30,4 @@ test:
 
 .PHONY: docker
 docker:
-	@docker build -t productcatalogservice:latest .
+	@docker build -t kurtosistech/obd-productcatalogservice:latest .
