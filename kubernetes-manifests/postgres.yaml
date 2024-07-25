@@ -1,16 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres
+  name: postgres-prod-v1
+  labels:
+    app: postgres-prod
+    version: v1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgres
+      app: postgres-prod
+      version: v1
   template:
     metadata:
       labels:
-        app: postgres
+        app: postgres-prod
+        version: v1
     spec:
       containers:
         - name: postgres
@@ -36,12 +41,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgres
+  name: postgres-prod
   labels:
-    app: postgres
+    app: postgres-prod
+    version: v1
 spec:
   type: ClusterIP
   ports:
-    - port: 5432
+    - name: tpc
+      port: 5432
+      targetPort: 5432
   selector:
-    app: postgres
+    app: postgres-prod

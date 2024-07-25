@@ -15,15 +15,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: paymentservice
+  name: paymentservice-prod-v1
+  labels:
+    app: paymentservice-prod
+    version: v1
 spec:
   selector:
     matchLabels:
-      app: paymentservice
+      app: paymentservice-prod
+      version: v1
   template:
     metadata:
       labels:
-        app: paymentservice
+        app: paymentservice-prod
+        version: v1
     spec:
       serviceAccountName: kardinal-manager
       terminationGracePeriodSeconds: 5
@@ -58,11 +63,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: paymentservice
+  name: paymentservice-prod
+  labels:
+    app: paymentservice-prod
+    version: v1
 spec:
   type: ClusterIP
   selector:
-    app: paymentservice
+    app: paymentservice-prod
   ports:
     - name: grpc
       port: 50051
