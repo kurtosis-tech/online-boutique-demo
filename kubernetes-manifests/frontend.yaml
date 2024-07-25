@@ -85,7 +85,7 @@ metadata:
     app: frontend-prod
     version: v1
   annotations:
-    kardinal.dev.service/dependencies: "checkoutservice-prod:grpc,addservice-prod:grpc,recommendationservice-prod:grpc,productcatalogservice-prod:grpc,cartservice-prod:grpc,shippingservice-prod:grpc"
+    kardinal.dev.service/dependencies: "checkoutservice-prod:grpc,adservice-prod:grpc,recommendationservice-prod:grpc,productcatalogservice-prod:grpc,cartservice-prod:grpc,shippingservice-prod:grpc"
     kardinal.dev.service/ingress: "true"
     kardinal.dev.service/host: "prod.app.localhost"
 spec:
