@@ -16,7 +16,7 @@ spec:
       serviceAccountName: kardinal-manager
       containers:
         - name: server
-          image: kurtosistech/obd-frontend
+          image: kurtosistech/obd-frontend:dev
           ports:
             - containerPort: 8080
           readinessProbe:
