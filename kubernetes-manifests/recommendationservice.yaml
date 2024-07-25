@@ -71,6 +71,8 @@ metadata:
   labels:
     app: recommendationservice-prod
     version: v1
+  annotations:
+    kardinal.dev.service/dependencies: "productcatalogservice-prod:grpc"
 spec:
   type: ClusterIP
   selector:

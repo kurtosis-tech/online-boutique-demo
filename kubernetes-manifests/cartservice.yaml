@@ -82,6 +82,9 @@ metadata:
   labels:
     app: cartservice-prod
     version: v1
+  annotations:
+    kardinal.dev.service/stateful: "true"
+    kardinal.dev.service/dependencies: "postgres-prod:tpc"
 spec:
   type: ClusterIP
   selector:

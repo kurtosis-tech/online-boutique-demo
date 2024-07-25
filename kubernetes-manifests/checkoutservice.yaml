@@ -64,6 +64,8 @@ metadata:
   labels:
     app: checkoutservice-prod
     version: v1
+  annotations:
+    kardinal.dev.service/dependencies: "paymentservice-prod:grpc,emailservice-prod:grpc,productcatalogservice-prod:grpc,cartservice-prod:grpc,shippingservice-prod:grpc"
 spec:
   type: ClusterIP
   selector:
