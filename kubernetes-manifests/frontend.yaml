@@ -95,6 +95,8 @@ spec:
   ports:
     - name: http
       port: 80
+      protocol: TCP
+      appProtocol: HTTP
       targetPort: 8080
 ---
 apiVersion: v1
