@@ -1,15 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend
+  name: frontend-prod-v1
+  labels:
+    app: frontend-prod
+    version: v1
 spec:
   selector:
     matchLabels:
-      app: frontend
+      app: frontend-prod
+      version: v1
   template:
     metadata:
       labels:
-        app: frontend
+        app: frontend-prod
+        version: v1
       annotations:
         sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
@@ -75,11 +80,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend
+  name: frontend-prod
+  labels:
+    app: frontend-prod
+    version: v1
 spec:
   type: ClusterIP
   selector:
-    app: frontend
+    app: frontend-prod
   ports:
     - name: http
       port: 80
@@ -92,7 +100,7 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    app: frontend
+    app: frontend-prod
   ports:
     - name: http
       port: 80

@@ -15,15 +15,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: recommendationservice
+  name: recommendationservice-prod-v1
+  labels:
+    app: recommendationservice-prod
+    version: v1
 spec:
   selector:
     matchLabels:
-      app: recommendationservice
+      app: recommendationservice-prod
+      version: v1
   template:
     metadata:
       labels:
-        app: recommendationservice
+        app: recommendationservice-prod
+        version: v1
     spec:
       serviceAccountName: kardinal-manager
       terminationGracePeriodSeconds: 5
@@ -62,11 +67,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: recommendationservice
+  name: recommendationservice-prod
+  labels:
+    app: recommendationservice-prod
+    version: v1
 spec:
   type: ClusterIP
   selector:
-    app: recommendationservice
+    app: recommendationservice-prod
   ports:
     - name: grpc
       port: 8080
