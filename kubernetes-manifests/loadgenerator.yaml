@@ -27,7 +27,7 @@ spec:
       annotations:
         sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
-      serviceAccountName: kardinal-manager
+      serviceAccountName: go-micro
       terminationGracePeriodSeconds: 5
       restartPolicy: Always
       initContainers:
