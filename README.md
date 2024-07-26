@@ -98,10 +98,11 @@ minikube addons enable ingress
 istioctl install --set profile=default -y
 ```
 
-3. Deploy Kardinal Manager in the local cluster
+3. Create prod namespace and add Istion injection label
 
 ```bash
-kardinal manager deploy local-minikube
+kubectl create namespace prod
+kubectl label namespace prod istio-injection=enabled
 ```
 
 4. Deploy the Go Micro engine with kubectl
@@ -110,7 +111,13 @@ kardinal manager deploy local-minikube
 kubectl apply -f ./kubernetes-manifests/gomicro.yaml
 ```
 
-5. Deploy the online boutique app with Kardinal
+5. Deploy Kardinal Manager in the local cluster
+
+```bash
+kardinal manager deploy local-minikube
+```
+
+6. Deploy the online boutique app with Kardinal
 
 ```bash
 kardinal deploy --k8s-manifest ./release/ob-kardinal.yaml
