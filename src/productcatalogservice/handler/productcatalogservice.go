@@ -46,6 +46,7 @@ func (s *ProductCatalogService) GetProduct(ctx context.Context, in *pb.GetProduc
 	out.Description = found.Description
 	out.Picture = found.Picture
 	out.PriceUsd = found.PriceUsd
+	out.Brand = found.Brand
 	return nil
 }
 
