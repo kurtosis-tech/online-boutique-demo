@@ -101,22 +101,16 @@ istioctl install --set profile=default -y
 3. Deploy Kardinal Manager in the local cluster
 
 ```bash
-kardinal manager deploy kloud-kontrol
+kardinal manager deploy local-minikube
 ```
 
-4. Deploy Kardinal Manager in the local cluster
-
-```bash
-kardinal manager deploy kloud-kontrol
-```
-
-5. Deploy the Go Micro engine with kubectl
+4. Deploy the Go Micro engine with kubectl
 
 ```bash
 kubectl apply -f ./kubernetes-manifests/gomicro.yaml
 ```
 
-6. Deploy the online boutique app with Kardinal
+5. Deploy the online boutique app with Kardinal
 
 ```bash
 kardinal deploy --k8s-manifest ./release/ob-kardinal.yaml
