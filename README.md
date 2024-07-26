@@ -123,6 +123,13 @@ kardinal manager deploy local-minikube
 kardinal deploy --k8s-manifest ./release/ob-kardinal.yaml
 ```
 
+7. Start the tunnel to access the services (you may have to provide you password for the underlying sudo access)
+```bash
+minikube tunnel
+```
+
+8. Open the [production page](http://prod.app.localhost/) in the browser to see the production online boutique
+
 ## Demos featuring Online Boutique
 
 - [From edge to mesh: Exposing service mesh applications through GKE Ingress](https://cloud.google.com/architecture/exposing-service-mesh-apps-through-gke-ingress)
