@@ -21,21 +21,6 @@ rules:
       - get
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: go-micro-registry
-rules:
-  - apiGroups:
-      - ""
-    resources:
-      - pods
-    verbs:
-      - list
-      - patch
-      - watch
-      - get
----
-apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: go-micro-registry
