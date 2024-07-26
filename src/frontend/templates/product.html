@@ -32,7 +32,9 @@
         <div class="product-wrapper">
 
           <h2>{{ $.product.Item.Name }}</h2>
-          <h3>{{ $.product.Item.Brand }}</h3>
+          {{if .Item.Brand}}
+            <h3>{{ $.product.Item.Brand }}</h3>
+          {{end}}
           <p class="product-price">{{ renderMoney $.product.Price }}</p>
           <p>{{ $.product.Item.Description }}</p>
 

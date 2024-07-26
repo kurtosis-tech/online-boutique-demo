@@ -49,7 +49,9 @@
             </a>
             <div>
               <div class="hot-product-card-name">{{ .Item.Name }}</div>
-              <div class="hot-product-card-brand">{{ .Item.Brand }}</div>
+              {{if .Item.Brand}}
+                <div class="hot-product-card-brand">{{ .Item.Brand }}</div>
+              {{end}}
               <div class="hot-product-card-price">{{ renderMoney .Price }}</div>
             </div>
           </div>
