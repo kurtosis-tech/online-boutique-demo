@@ -30,4 +30,4 @@ test:
 
 .PHONY: docker
 docker:
-	@docker build -t kurtosistech/obd-cartservice:0.0.1-dev .
+	@docker build -t kurtosistech/obd-cartservice .
