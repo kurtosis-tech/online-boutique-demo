@@ -339,6 +339,13 @@ main {
   font-size: 18px;
 }
 
+.hot-product-card-brand {
+  color: #2c0878;
+  font-weight: 600;
+  border-bottom: #2c0878 solid 4px;
+  margin-bottom: 8px;
+}
+
 .hot-product-card-price {
   font-size: 14px;
 }

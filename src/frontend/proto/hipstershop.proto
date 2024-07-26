@@ -83,6 +83,7 @@ message Product {
     // Categories such as "clothing" or "kitchen" that can be used to look up
     // other related products.
     repeated string categories = 6;
+    string brand = 7;
 }
 
 message ListProductsResponse {
