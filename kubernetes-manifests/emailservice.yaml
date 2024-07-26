@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: emailservice-prod-v1
+  name: emailservice-v1
   labels:
-    app: emailservice-prod
+    app: emailservice
     version: v1
 spec:
   selector:
     matchLabels:
-      app: emailservice-prod
+      app: emailservice
       version: v1
   template:
     metadata:
       labels:
-        app: emailservice-prod
+        app: emailservice
         version: v1
     spec:
-      serviceAccountName: kardinal-manager
+      serviceAccountName: go-micro
       terminationGracePeriodSeconds: 5
       containers:
         - name: server
@@ -51,14 +51,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: emailservice-prod
+  name: emailservice
   labels:
-    app: emailservice-prod
+    app: emailservice
     version: v1
 spec:
   type: ClusterIP
   selector:
-    app: emailservice-prod
+    app: emailservice
   ports:
     - name: grpc
       port: 5000

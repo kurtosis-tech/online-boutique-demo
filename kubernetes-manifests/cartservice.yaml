@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cartservice-prod-v1
+  name: cartservice-v1
   labels:
-    app: cartservice-prod
+    app: cartservice
     version: v1
 spec:
   selector:
     matchLabels:
-      app: cartservice-prod
+      app: cartservice
       version: v1
   template:
     metadata:
       labels:
-        app: cartservice-prod
+        app: cartservice
         version: v1
     spec:
-      serviceAccountName: kardinal-manager
+      serviceAccountName: go-micro
       terminationGracePeriodSeconds: 5
       securityContext:
         fsGroup: 1000
@@ -78,17 +78,17 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: cartservice-prod
+  name: cartservice
   labels:
-    app: cartservice-prod
+    app: cartservice
     version: v1
   annotations:
     kardinal.dev.service/stateful: "true"
-    kardinal.dev.service/dependencies: "postgres-prod:tpc"
+    kardinal.dev.service/dependencies: "postgres:tpc"
 spec:
   type: ClusterIP
   selector:
-    app: cartservice-prod
+    app: cartservice
   ports:
     - name: grpc
       port: 7070

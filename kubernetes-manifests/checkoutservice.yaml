@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: checkoutservice-prod-v1
+  name: checkoutservice-v1
   labels:
-    app: checkoutservice-prod
+    app: checkoutservice
     version: v1
 spec:
   selector:
     matchLabels:
-      app: checkoutservice-prod
+      app: checkoutservice
       version: v1
   template:
     metadata:
       labels:
-        app: checkoutservice-prod
+        app: checkoutservice
         version: v1
     spec:
-      serviceAccountName: kardinal-manager
+      serviceAccountName: go-micro
       containers:
         - name: server
           image: kurtosistech/obd-checkoutservice
@@ -60,16 +60,16 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: checkoutservice-prod
+  name: checkoutservice
   labels:
-    app: checkoutservice-prod
+    app: checkoutservice
     version: v1
   annotations:
-    kardinal.dev.service/dependencies: "paymentservice-prod:grpc,emailservice-prod:grpc,productcatalogservice-prod:grpc,cartservice-prod:grpc,shippingservice-prod:grpc"
+    kardinal.dev.service/dependencies: "paymentservice:grpc,emailservice:grpc,productcatalogservice:grpc,cartservice:grpc,shippingservice:grpc"
 spec:
   type: ClusterIP
   selector:
-    app: checkoutservice-prod
+    app: checkoutservice
   ports:
     - name: grpc
       port: 5050

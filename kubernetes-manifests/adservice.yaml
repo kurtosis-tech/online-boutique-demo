@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: adservice-prod-v1
+  name: adservice-v1
   labels:
-    app: adservice-prod
-    version: 1
+    app: adservice
+    version: v1
 spec:
   selector:
     matchLabels:
-      app: adservice-prod
-      version: 1
+      app: adservice
+      version: v1
   template:
     metadata:
       labels:
-        app: adservice-prod
-        version: 1
+        app: adservice
+        version: v1
     spec:
-      serviceAccountName: kardinal-manager
+      serviceAccountName: go-micro
       terminationGracePeriodSeconds: 5
       containers:
         - name: server
@@ -53,14 +53,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: adservice-prod
+  name: adservice
   labels:
-    app: adservice-prod
+    app: adservice
     version: v1
 spec:
   type: ClusterIP
   selector:
-    app: adservice-prod
+    app: adservice
   ports:
     - name: grpc
       port: 9555
