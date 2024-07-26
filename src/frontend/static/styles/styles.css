@@ -354,7 +354,7 @@ main {
   width: 100%;
   top: 0;
   left: 0;
-  border-radius: 20% 0 20% 20%;
+  border-radius: 20%;
   background-color: transparent;
 }
 

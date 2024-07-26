@@ -11,7 +11,7 @@ spec:
       labels:
         app: adservice
     spec:
-      serviceAccountName: kardinal-manager
+      serviceAccountName: go-micro
       terminationGracePeriodSeconds: 5
       containers:
         - name: server
