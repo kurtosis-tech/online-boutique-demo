@@ -33,7 +33,7 @@ jobs:
         with:
           context: "{{defaultContext}}:src/frontend"
           push: true
-          tags: 0.0.1-dev
+          tags: kurtosistech/obd-frontend:0.0.1-dev
 
   productcatalogservice:
     runs-on: ubuntu-latest
@@ -61,4 +61,4 @@ jobs:
         with:
           context: "{{defaultContext}}:src/productcatalogservice"
           push: true
-          tags: 0.0.1-dev
+          tags: kurtosistech/obd-productcatalogservice:0.0.1-dev
