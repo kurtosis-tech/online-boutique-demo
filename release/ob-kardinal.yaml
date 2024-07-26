@@ -1,0 +1,792 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adservice-v1
+  labels:
+    app: adservice
+    version: v1
+spec:
+  selector:
+    matchLabels:
+      app: adservice
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: adservice
+        version: v1
+    spec:
+      serviceAccountName: go-micro
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: server
+          image: kurtosistech/obd-adservice
+          ports:
+            - containerPort: 9555
+          env:
+            - name: PORT
+              value: "9555"
+            - name: MICRO_REGISTRY
+              value: "kubernetes"
+            - name: TRACING_ENABLE
+              value: "true"
+            - name: TRACING_JAEGER_URL
+              value: "http://jaeger-collector.default.svc.cluster.local:14268/api/traces"
+          # resources:
+          #   requests:
+          #     cpu: 100m
+          #     memory: 64Mi
+          #   limits:
+          #     cpu: 200m
+          #     memory: 128Mi
+          readinessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 15
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:9555"]
+          livenessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 15
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:9555"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: adservice
+  labels:
+    app: adservice
+    version: v1
+spec:
+  type: ClusterIP
+  selector:
+    app: adservice
+  ports:
+    - name: grpc
+      port: 9555
+      targetPort: 9555
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cartservice-v1
+  labels:
+    app: cartservice
+    version: v1
+spec:
+  selector:
+    matchLabels:
+      app: cartservice
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: cartservice
+        version: v1
+    spec:
+      serviceAccountName: go-micro
+      terminationGracePeriodSeconds: 5
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+        - name: server
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - all
+            privileged: false
+            readOnlyRootFilesystem: true
+          image: kurtosistech/obd-cartservice
+          ports:
+            - containerPort: 7070
+          env:
+            - name: PORT
+              value: "7070"
+            - name: MICRO_REGISTRY
+              value: "kubernetes"
+            - name: REDIS_ADDR
+              value: "redis-cart:6379"
+            - name: TRACING_ENABLE
+              value: "true"
+            - name: TRACING_JAEGER_URL
+              value: "http://jaeger-collector.default.svc.cluster.local:14268/api/traces"
+            - name: DB_USERNAME
+              value: "postgresuser"
+            - name: DB_PASSWORD
+              value: "postgrespass"
+            - name: DB_HOST
+              value: "postgres"
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_NAME
+              value: "cart"
+          # resources:
+          #   requests:
+          #     cpu: 100m
+          #     memory: 64Mi
+          #   limits:
+          #     cpu: 200m
+          #     memory: 128Mi
+          readinessProbe:
+            initialDelaySeconds: 15
+            exec:
+              command:
+                ["/bin/grpc_health_probe", "-addr=:7070", "-rpc-timeout=5s"]
+          livenessProbe:
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            exec:
+              command:
+                ["/bin/grpc_health_probe", "-addr=:7070", "-rpc-timeout=5s"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cartservice
+  labels:
+    app: cartservice
+    version: v1
+  annotations:
+    kardinal.dev.service/stateful: "true"
+    kardinal.dev.service/dependencies: "postgres:tcp"
+spec:
+  type: ClusterIP
+  selector:
+    app: cartservice
+  ports:
+    - name: grpc
+      port: 7070
+      targetPort: 7070
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: checkoutservice-v1
+  labels:
+    app: checkoutservice
+    version: v1
+spec:
+  selector:
+    matchLabels:
+      app: checkoutservice
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: checkoutservice
+        version: v1
+    spec:
+      serviceAccountName: go-micro
+      containers:
+        - name: server
+          image: kurtosistech/obd-checkoutservice
+          ports:
+            - containerPort: 5050
+          readinessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:5050"]
+          livenessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:5050"]
+          env:
+            - name: PORT
+              value: "5050"
+            - name: MICRO_REGISTRY
+              value: "kubernetes"
+            - name: PRODUCTCATALOGSERVICE
+              value: "productcatalogservice"
+            - name: SHIPPINGSERVICE
+              value: "shippingservice"
+            - name: PAYMENTSERVICE
+              value: "paymentservice"
+            - name: EMAILSERVICE
+              value: "emailservice"
+            - name: CURRENCYSERVICE
+              value: "currencyservice"
+            - name: CARTSERVICE
+              value: "cartservice"
+            - name: TRACING_ENABLE
+              value: "true"
+            - name: TRACING_JAEGER_URL
+              value: "http://jaeger-collector.default.svc.cluster.local:14268/api/traces"
+          # resources:
+          #   requests:
+          #     cpu: 100m
+          #     memory: 64Mi
+          #   limits:
+          #     cpu: 200m
+          #     memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: checkoutservice
+  labels:
+    app: checkoutservice
+    version: v1
+  annotations:
+    kardinal.dev.service/dependencies: "paymentservice:grpc,emailservice:grpc,productcatalogservice:grpc,cartservice:grpc,shippingservice:grpc"
+spec:
+  type: ClusterIP
+  selector:
+    app: checkoutservice
+  ports:
+    - name: grpc
+      port: 5050
+      targetPort: 5050
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: emailservice-v1
+  labels:
+    app: emailservice
+    version: v1
+spec:
+  selector:
+    matchLabels:
+      app: emailservice
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: emailservice
+        version: v1
+    spec:
+      serviceAccountName: go-micro
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: server
+          image: kurtosistech/obd-emailservice
+          ports:
+            - containerPort: 8080
+          env:
+            - name: PORT
+              value: "8080"
+            - name: MICRO_REGISTRY
+              value: "kubernetes"
+            - name: TRACING_ENABLE
+              value: "true"
+            - name: TRACING_JAEGER_URL
+              value: "http://jaeger-collector.default.svc.cluster.local:14268/api/traces"
+          readinessProbe:
+            periodSeconds: 5
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:8080"]
+          livenessProbe:
+            periodSeconds: 5
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:8080"]
+          # resources:
+          #   requests:
+          #     cpu: 100m
+          #     memory: 64Mi
+          #   limits:
+          #     cpu: 200m
+          #     memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: emailservice
+  labels:
+    app: emailservice
+    version: v1
+spec:
+  type: ClusterIP
+  selector:
+    app: emailservice
+  ports:
+    - name: grpc
+      port: 5000
+      targetPort: 8080
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-v1
+  labels:
+    app: frontend
+    version: v1
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: frontend
+        version: v1
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
+    spec:
+      serviceAccountName: go-micro
+      containers:
+        - name: server
+          image: kurtosistech/obd-frontend
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            initialDelaySeconds: 10
+            httpGet:
+              path: "/_healthz"
+              port: 8080
+              httpHeaders:
+                - name: "Cookie"
+                  value: "shop_session-id=x-readiness-probe"
+          livenessProbe:
+            initialDelaySeconds: 10
+            httpGet:
+              path: "/_healthz"
+              port: 8080
+              httpHeaders:
+                - name: "Cookie"
+                  value: "shop_session-id=x-liveness-probe"
+          env:
+            - name: ADDRESS
+              value: ":8080"
+            - name: MICRO_REGISTRY
+              value: "kubernetes"
+            - name: PRODUCTCATALOGSERVICE
+              value: "productcatalogservice"
+            - name: CURRENCYSERVICE
+              value: "currencyservice"
+            - name: CARTSERVICE
+              value: "cartservice"
+            - name: RECOMMENDATIONSERVICE
+              value: "recommendationservice"
+            - name: SHIPPINGSERVICE
+              value: "shippingservice"
+            - name: CHECKOUTSERVICE
+              value: "checkoutservice"
+            - name: ADSERVICE
+              value: "adservice"
+            # # ENV_PLATFORM: One of: local, gcp, aws, azure, onprem, alibaba
+            # # When not set, defaults to "local" unless running in GKE, otherwies auto-sets to gcp
+            # - name: ENV_PLATFORM
+            #   value: "aws"
+            - name: TRACING_ENABLE
+              value: "true"
+            - name: TRACING_JAEGER_URL
+              value: "http://jaeger-collector.default.svc.cluster.local:14268/api/traces"
+            # - name: CYMBAL_BRANDING
+            #   value: "true"
+          # resources:
+          #   requests:
+          #     cpu: 100m
+          #     memory: 64Mi
+          #   limits:
+          #     cpu: 200m
+          #     memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  labels:
+    app: frontend
+    version: v1
+  annotations:
+    kardinal.dev.service/dependencies: "checkoutservice:grpc,adservice:grpc,recommendationservice:grpc,productcatalogservice:grpc,cartservice:grpc,shippingservice:grpc"
+spec:
+  type: ClusterIP
+  selector:
+    app: frontend
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      appProtocol: HTTP
+      targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-external
+  annotations:
+    kardinal.dev.service/ingress: "true"
+    kardinal.dev.service/host: "prod.app.localhost"
+spec:
+  type: LoadBalancer
+  selector:
+    app: frontend
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+
+---
+# Copyright 2018 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: paymentservice-v1
+  labels:
+    app: paymentservice
+    version: v1
+spec:
+  selector:
+    matchLabels:
+      app: paymentservice
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: paymentservice
+        version: v1
+    spec:
+      serviceAccountName: go-micro
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: server
+          image: kurtosistech/obd-paymentservice
+          ports:
+            - containerPort: 50051
+          env:
+            - name: PORT
+              value: "50051"
+            - name: MICRO_REGISTRY
+              value: "kubernetes"
+            - name: TRACING_ENABLE
+              value: "true"
+            - name: TRACING_JAEGER_URL
+              value: "http://jaeger-collector.default.svc.cluster.local:14268/api/traces"
+          readinessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:50051"]
+          livenessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:50051"]
+          # resources:
+          #   requests:
+          #     cpu: 100m
+          #     memory: 64Mi
+          #   limits:
+          #     cpu: 200m
+          #     memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: paymentservice
+  labels:
+    app: paymentservice
+    version: v1
+spec:
+  type: ClusterIP
+  selector:
+    app: paymentservice
+  ports:
+    - name: grpc
+      port: 50051
+      targetPort: 50051
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-v1
+  labels:
+    app: postgres
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: postgres
+        version: v1
+    spec:
+      containers:
+        - name: postgres
+          image: 'postgres:14'
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: "cart"
+            - name: POSTGRES_USER
+              value: "postgresuser"
+            - name: POSTGRES_PASSWORD
+              value: "postgrespass"
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-data
+      volumes:
+        - name: postgres-data
+          emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  labels:
+    app: postgres
+    version: v1
+spec:
+  type: ClusterIP
+  ports:
+    - name: tcp
+      port: 5432
+      targetPort: 5432
+  selector:
+    app: postgres
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: productcatalogservice-v1
+  labels:
+    app: productcatalogservice
+    version: v1
+spec:
+  selector:
+    matchLabels:
+      app: productcatalogservice
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: productcatalogservice
+        version: v1
+    spec:
+      serviceAccountName: go-micro
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: server
+          image: kurtosistech/obd-productcatalogservice
+          ports:
+            - containerPort: 3550
+          env:
+            - name: PORT
+              value: "3550"
+            - name: MICRO_REGISTRY
+              value: "kubernetes"
+            - name: TRACING_ENABLE
+              value: "true"
+            - name: TRACING_JAEGER_URL
+              value: "http://jaeger-collector.default.svc.cluster.local:14268/api/traces"
+          readinessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:3550"]
+          livenessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:3550"]
+          # resources:
+          #   requests:
+          #     cpu: 100m
+          #     memory: 64Mi
+          #   limits:
+          #     cpu: 200m
+          #     memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: productcatalogservice
+  labels:
+    app: productcatalogservice
+    version: v1
+spec:
+  type: ClusterIP
+  selector:
+    app: productcatalogservice
+  ports:
+    - name: grpc
+      port: 3550
+      targetPort: 3550
+
+
+---
+# Copyright 2018 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recommendationservice-v1
+  labels:
+    app: recommendationservice
+    version: v1
+spec:
+  selector:
+    matchLabels:
+      app: recommendationservice
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: recommendationservice
+        version: v1
+    spec:
+      serviceAccountName: go-micro
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: server
+          image: kurtosistech/obd-recommendationservice
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            periodSeconds: 5
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:8080"]
+          livenessProbe:
+            periodSeconds: 5
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:8080"]
+          env:
+            - name: PORT
+              value: "8080"
+            - name: MICRO_REGISTRY
+              value: "kubernetes"
+            - name: PRODUCTCATALOGSERVICE
+              value: "productcatalogservice"
+            - name: TRACING_ENABLE
+              value: "true"
+            - name: TRACING_JAEGER_URL
+              value: "http://jaeger-collector.default.svc.cluster.local:14268/api/traces"
+          # resources:
+          #   requests:
+          #     cpu: 100m
+          #     memory: 64Mi
+          #   limits:
+          #     cpu: 200m
+          #     memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: recommendationservice
+  labels:
+    app: recommendationservice
+    version: v1
+  annotations:
+    kardinal.dev.service/dependencies: "productcatalogservice:grpc"
+spec:
+  type: ClusterIP
+  selector:
+    app: recommendationservice
+  ports:
+    - name: grpc
+      port: 8080
+      targetPort: 8080
+
+---
+# Copyright 2018 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shippingservice-v1
+  labels:
+    app: shippingservice
+    version: v1
+spec:
+  selector:
+    matchLabels:
+      app: shippingservice
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: shippingservice
+        version: v1
+    spec:
+      serviceAccountName: go-micro
+      containers:
+        - name: server
+          image: kurtosistech/obd-shippingservice
+          ports:
+            - containerPort: 50051
+          env:
+            - name: PORT
+              value: "50051"
+            - name: MICRO_REGISTRY
+              value: "kubernetes"
+            - name: TRACING_ENABLE
+              value: "true"
+            - name: TRACING_JAEGER_URL
+              value: "http://jaeger-collector.default.svc.cluster.local:14268/api/traces"
+          readinessProbe:
+            periodSeconds: 5
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:50051"]
+          livenessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:50051"]
+          # resources:
+          #   requests:
+          #     cpu: 100m
+          #     memory: 64Mi
+          #   limits:
+          #     cpu: 200m
+          #     memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shippingservice
+  labels:
+    app: shippingservice
+    version: v1
+spec:
+  type: ClusterIP
+  selector:
+    app: shippingservice
+  ports:
+    - name: grpc
+      port: 50051
+      targetPort: 50051

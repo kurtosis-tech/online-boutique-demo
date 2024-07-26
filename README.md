@@ -83,6 +83,39 @@ microservices](./docs/img/architecture-diagram.png)](./docs/img/architecture-dia
 
 If you would like to contribute features or fixes to this app, see the [Development Guide](/docs/development-guide.md) on how to build this demo locally.
 
+## Kardinal steps
+
+1. Starts a local K8s cluster like Minikube
+
+```bash
+minikube start --driver=docker --cpus=10 --memory 8192 --disk-size 32g
+minikube addons enable ingress
+```
+
+2. Install Istio resources in the local cluster
+
+```bash
+istioctl install --set profile=default -y
+```
+
+3. Deploy Kardinal Manager in the local cluster
+
+```bash
+kardinal manager deploy kloud-kontrol
+```
+
+4. Deploy Kardinal Manager in the local cluster
+
+```bash
+kardinal manager deploy kloud-kontrol
+```
+
+5. Deploy the online boutique app with Kardinal
+
+```bash
+kardinal deploy --k8s-manifest ./release/ob-kardinal.yaml
+```
+
 ## Demos featuring Online Boutique
 
 - [From edge to mesh: Exposing service mesh applications through GKE Ingress](https://cloud.google.com/architecture/exposing-service-mesh-apps-through-gke-ingress)
