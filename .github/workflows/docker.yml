@@ -7,6 +7,7 @@ on:
 
 jobs:
   adservice:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -44,6 +45,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
   cartservice:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -81,6 +83,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
   checkoutservice:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -118,6 +121,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
   emailservice:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -155,6 +159,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
   frontend:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -192,6 +197,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
   loadgenerator:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -229,6 +235,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
   paymentservice:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -266,6 +273,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
   productcatalogservice:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -303,6 +311,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
   recommendationservice:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -340,6 +349,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
   shippingservice:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: read
