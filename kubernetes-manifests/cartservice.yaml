@@ -84,7 +84,7 @@ metadata:
     version: v1
   annotations:
     kardinal.dev.service/stateful: "true"
-    kardinal.dev.service/dependencies: "postgres:tpc"
+    kardinal.dev.service/dependencies: "postgres:tcp"
 spec:
   type: ClusterIP
   selector:
