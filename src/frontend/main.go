@@ -108,7 +108,7 @@ func main() {
 		adService:             pb.NewAdService(cfg.AdService, client),
 		cartService:           pb.NewCartService(cfg.CartService, client),
 		checkoutService:       pb.NewCheckoutService(cfg.CheckoutService, client),
-		currencyService:       currencyexternalservice.CreateService(),
+		currencyService:       currencyexternalservice.CreateService(cfg.FreeCurrencyAPIKey),
 		productCatalogService: pb.NewProductCatalogService(cfg.ProductCatalogService, client),
 		recommendationService: pb.NewRecommendationService(cfg.RecommendationService, client),
 		shippingService:       pb.NewShippingService(cfg.ShippingService, client),

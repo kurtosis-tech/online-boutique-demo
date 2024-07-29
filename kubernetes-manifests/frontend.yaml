@@ -67,6 +67,8 @@ spec:
               value: "true"
             - name: TRACING_JAEGER_URL
               value: "http://jaeger-collector.default.svc.cluster.local:14268/api/traces"
+            - name: FREECURRENCYAPIKEY
+              value: "fca_live_VKZlykCWEiFcpBHnw74pzd4vLi04q1h9JySbVHDF"
             # - name: CYMBAL_BRANDING
             #   value: "true"
           # resources:

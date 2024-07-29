@@ -9,56 +9,67 @@ import (
 )
 
 const (
-	apiBaseURL          = "https://api.freecurrencyapi.com/v1/"
-	apiKeyQueryParamKey = "apikey"
-	//TODO make it dynamic config
-	apiKeyQueryParamValue   = "fca_live_VKZlykCWEiFcpBHnw74pzd4vLi04q1h9JySbVHDF"
+	apiBaseURL              = "https://api.freecurrencyapi.com/v1/"
+	apiKeyQueryParamKey     = "apikey"
 	currenciesQueryParamKey = "currencies"
 	currenciesEndpointPath  = "currencies"
 	latestRatesEndpointPath = "latest"
 )
 
-var FreeCurrencyAPIConfig = config.NewCurrencyAPIConfig(
-	// saving the response for a week because app.freecurrencyapi.com has a low limit
-	// and this is a demo project, it's not important to have the latest data
-	168*time.Hour,
-	getCurrenciesURL,
-	getLatestRatesURL,
-)
-
-func getCurrenciesURL() (*url.URL, error) {
-	currenciesEndpointUrlStr := fmt.Sprintf("%s%s", apiBaseURL, currenciesEndpointPath)
-
-	currenciesEndpointUrl, err := url.Parse(currenciesEndpointUrlStr)
-	if err != nil {
-		return nil, err
-	}
-
-	currenciesEndpointQuery := currenciesEndpointUrl.Query()
-
-	currenciesEndpointQuery.Set(apiKeyQueryParamKey, apiKeyQueryParamValue)
-
-	currenciesEndpointUrl.RawQuery = currenciesEndpointQuery.Encode()
-
-	return currenciesEndpointUrl, nil
+func GetFreeCurrencyAPIConfig(apiKey string) *config.CurrencyAPIConfig {
+	var FreeCurrencyAPIConfig = config.NewCurrencyAPIConfig(
+		// saving the response for a week because app.freecurrencyapi.com has a low limit
+		// and this is a demo project, it's not important to have the latest data
+		168*time.Hour,
+		getGetCurrenciesURLFunc(apiKey),
+		getGetLatestRatesURLFunc(apiKey),
+	)
+	return FreeCurrencyAPIConfig
 }
 
-func getLatestRatesURL(from string, to string) (*url.URL, error) {
-	latestRatesEndpointUrlStr := fmt.Sprintf("%s%s", apiBaseURL, latestRatesEndpointPath)
+func getGetCurrenciesURLFunc(apiKey string) func() (*url.URL, error) {
 
-	latestRatesEndpointUrl, err := url.Parse(latestRatesEndpointUrlStr)
-	if err != nil {
-		return nil, err
+	getCurrenciesURLFunc := func() (*url.URL, error) {
+		currenciesEndpointUrlStr := fmt.Sprintf("%s%s", apiBaseURL, currenciesEndpointPath)
+
+		currenciesEndpointUrl, err := url.Parse(currenciesEndpointUrlStr)
+		if err != nil {
+			return nil, err
+		}
+
+		currenciesEndpointQuery := currenciesEndpointUrl.Query()
+
+		currenciesEndpointQuery.Set(apiKeyQueryParamKey, apiKey)
+
+		currenciesEndpointUrl.RawQuery = currenciesEndpointQuery.Encode()
+
+		return currenciesEndpointUrl, nil
 	}
 
-	latestRatesEndpointQuery := latestRatesEndpointUrl.Query()
+	return getCurrenciesURLFunc
+}
 
-	currenciesQueryParamValue := strings.Join([]string{strings.ToUpper(from), strings.ToUpper(to)}, ",")
+func getGetLatestRatesURLFunc(apiKey string) func(string, string) (*url.URL, error) {
 
-	latestRatesEndpointQuery.Set(apiKeyQueryParamKey, apiKeyQueryParamValue)
-	latestRatesEndpointQuery.Set(currenciesQueryParamKey, currenciesQueryParamValue)
+	getLatestRatesURLFunc := func(from string, to string) (*url.URL, error) {
+		latestRatesEndpointUrlStr := fmt.Sprintf("%s%s", apiBaseURL, latestRatesEndpointPath)
 
-	latestRatesEndpointUrl.RawQuery = latestRatesEndpointQuery.Encode()
+		latestRatesEndpointUrl, err := url.Parse(latestRatesEndpointUrlStr)
+		if err != nil {
+			return nil, err
+		}
 
-	return latestRatesEndpointUrl, nil
+		latestRatesEndpointQuery := latestRatesEndpointUrl.Query()
+
+		currenciesQueryParamValue := strings.Join([]string{strings.ToUpper(from), strings.ToUpper(to)}, ",")
+
+		latestRatesEndpointQuery.Set(apiKeyQueryParamKey, apiKey)
+		latestRatesEndpointQuery.Set(currenciesQueryParamKey, currenciesQueryParamValue)
+
+		latestRatesEndpointUrl.RawQuery = latestRatesEndpointQuery.Encode()
+
+		return latestRatesEndpointUrl, nil
+	}
+
+	return getLatestRatesURLFunc
 }

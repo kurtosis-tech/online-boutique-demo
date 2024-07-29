@@ -72,7 +72,7 @@ func main() {
 	cfg, client := config.Get(), srv.Client()
 	checkoutService := &handler.CheckoutService{
 		CartService:           pb.NewCartService(cfg.CartService, client),
-		CurrencyService:       currencyexternalservice.CreateService(),
+		CurrencyService:       currencyexternalservice.CreateService(cfg.FreeCurrencyAPIKey),
 		EmailService:          pb.NewEmailService(cfg.EmailService, client),
 		PaymentService:        pb.NewPaymentService(cfg.PaymentService, client),
 		ProductCatalogService: pb.NewProductCatalogService(cfg.ProductCatalogService, client),
