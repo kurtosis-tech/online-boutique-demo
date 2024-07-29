@@ -446,6 +446,16 @@ similar to that of the hot-products-row.
   border-radius: 0;
 }
 
+.product-present-checkbox {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.product-present-checkbox img {
+  width: 40px;
+  height: 40px;
+}
+
 .product-quantity-dropdown {
   position: relative;
   width: 100px;

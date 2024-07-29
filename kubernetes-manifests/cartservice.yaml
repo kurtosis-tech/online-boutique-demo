@@ -27,7 +27,7 @@ spec:
                 - all
             privileged: false
             readOnlyRootFilesystem: true
-          image: kurtosistech/obd-cartservice
+          image: kurtosistech/obd-cartservice:0.0.1-dev
           ports:
             - containerPort: 7070
           env:
