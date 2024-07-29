@@ -1,15 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend
+  name: frontend-v1
+  labels:
+    app: frontend
+    version: v1
 spec:
   selector:
     matchLabels:
       app: frontend
+      version: v1
   template:
     metadata:
       labels:
         app: frontend
+        version: v1
       annotations:
         sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
@@ -36,7 +41,7 @@ spec:
                 - name: "Cookie"
                   value: "shop_session-id=x-liveness-probe"
           env:
-            - name: ADDRESS 
+            - name: ADDRESS
               value: ":8080"
             - name: MICRO_REGISTRY
               value: "kubernetes"
@@ -76,6 +81,11 @@ apiVersion: v1
 kind: Service
 metadata:
   name: frontend
+  labels:
+    app: frontend
+    version: v1
+  annotations:
+    kardinal.dev.service/dependencies: "checkoutservice:grpc,adservice:grpc,recommendationservice:grpc,productcatalogservice:grpc,cartservice:grpc,shippingservice:grpc"
 spec:
   type: ClusterIP
   selector:
@@ -83,12 +93,18 @@ spec:
   ports:
     - name: http
       port: 80
+      protocol: TCP
+      appProtocol: HTTP
       targetPort: 8080
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: frontend-external
+  annotations:
+    kardinal.dev.service/ingress: "true"
+    kardinal.dev.service/host: "prod.app.localhost"
 spec:
   type: LoadBalancer
   selector:
