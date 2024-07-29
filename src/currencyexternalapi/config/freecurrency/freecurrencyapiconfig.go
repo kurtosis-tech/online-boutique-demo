@@ -16,7 +16,7 @@ const (
 	latestRatesEndpointPath = "latest"
 )
 
-func getFreeCurrencyAPIConfig(apiKey string) *config.CurrencyAPIConfig {
+func GetFreeCurrencyAPIConfig(apiKey string) *config.CurrencyAPIConfig {
 	var FreeCurrencyAPIConfig = config.NewCurrencyAPIConfig(
 		// saving the response for a week because app.freecurrencyapi.com has a low limit
 		// and this is a demo project, it's not important to have the latest data

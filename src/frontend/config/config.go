@@ -15,6 +15,7 @@ type Config struct {
 	ProductCatalogService string
 	RecommendationService string
 	ShippingService       string
+	FreeCurrencyAPIKey    string
 }
 
 type TracingConfig struct {

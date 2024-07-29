@@ -49,6 +49,8 @@ spec:
               value: "true"
             - name: TRACING_JAEGER_URL
               value: "http://jaeger-collector.default.svc.cluster.local:14268/api/traces"
+            - name: FREECURRENCYAPIKEY
+              value: "fca_live_zwpwPHMCCqcbMOUjjlrX4wXVRVl1fu3KSlz647Bh"
           # resources:
           #   requests:
           #     cpu: 100m
