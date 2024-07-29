@@ -8,7 +8,7 @@ require (
 	github.com/go-micro/plugins/v4/server/grpc v1.1.1
 	github.com/go-micro/plugins/v4/wrapper/trace/opentelemetry v1.1.1
 	github.com/google/uuid v1.2.0
-	github.com/kurtosis-tech/online-boutique-demo/src/currencyexternalapi v0.0.0-20240723151104-086841d04b4a
+	github.com/kurtosis-tech/online-boutique-demo/src/currencyexternalapi v0.0.0-20240729190836-e99f63c9b42e
 	github.com/pkg/errors v0.9.1
 	go-micro.dev/v4 v4.9.0
 	go.opentelemetry.io/otel v1.11.0

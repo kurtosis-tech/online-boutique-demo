@@ -9,7 +9,7 @@ require (
 	github.com/go-micro/plugins/v4/server/http v1.1.1
 	github.com/google/uuid v1.2.0
 	github.com/gorilla/mux v1.8.0
-	github.com/kurtosis-tech/online-boutique-demo/src/currencyexternalapi v0.0.0-20240723151104-086841d04b4a
+	github.com/kurtosis-tech/online-boutique-demo/src/currencyexternalapi v0.0.0-20240729190836-e99f63c9b42e
 	github.com/pkg/errors v0.9.1
 	github.com/sirupsen/logrus v1.7.0
 	go-micro.dev/v4 v4.9.0

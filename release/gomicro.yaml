@@ -2,11 +2,13 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: go-micro
+  namespace: prod
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
+kind: Role
 metadata:
   name: go-micro-registry
+  namespace: prod
 rules:
   - apiGroups:
       - ""
@@ -16,11 +18,13 @@ rules:
       - list
       - patch
       - watch
+      - get
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: go-micro-registry
+  namespace: prod
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -28,11 +32,13 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: go-micro
+    namespace: prod
 ---
 kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: go-micro-dashboard
+  namespace: prod
   labels:
     app: go-micro-dashboard
 spec:
@@ -76,6 +82,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: go-micro-dashboard
+  namespace: prod
 spec:
   type: ClusterIP
   selector:
