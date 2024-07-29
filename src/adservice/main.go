@@ -65,6 +65,9 @@ func main() {
 		}
 		opts = append(opts, micro.WrapHandler(opentelemetry.NewHandlerWrapper(traceOpts...)))
 	}
+	opts = append(opts, micro.WrapHandler(myTraceHandler()))
+
+	logger.Infof("[LEO DEBUG] starting tracing")
 	srv.Init(opts...)
 
 	// Register handler

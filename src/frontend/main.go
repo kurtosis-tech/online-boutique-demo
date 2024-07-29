@@ -133,6 +133,8 @@ func main() {
 	// handler = tracing(handler)                     // add opentelemetry instrumentation
 	r.Use(otelmux.Middleware(name))
 	r.Use(tracingContextWrapper)
+	logger.Infof("[LEO DEBUG] starting tracing")
+	r.Use(myTracingContextWrapper)
 	if err := micro.RegisterHandler(srv.Server(), handler); err != nil {
 		logger.Fatal(err)
 	}

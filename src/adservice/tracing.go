@@ -1,6 +1,10 @@
 package main
 
 import (
+	"context"
+	"go-micro.dev/v4/logger"
+	"go-micro.dev/v4/metadata"
+	"go-micro.dev/v4/server"
 	"go.opentelemetry.io/otel/exporters/jaeger"
 	"go.opentelemetry.io/otel/sdk/resource"
 	tracesdk "go.opentelemetry.io/otel/sdk/trace"
@@ -27,4 +31,23 @@ func newTracerProvider(serviceName, serviceID, url string) (*tracesdk.TracerProv
 		)),
 	)
 	return tp, nil
+}
+
+func myTraceHandler() server.HandlerWrapper {
+	// return a handler wrapper
+	return func(h server.HandlerFunc) server.HandlerFunc {
+		// return a function that returns a function
+		return func(ctx context.Context, req server.Request, rsp interface{}) error {
+			key := "X-Kardinal-Trace-Id"
+
+			keyFromMD, found := metadata.Get(ctx, key)
+			if found {
+				logger.Infof("[LEO-DEBUG] key: %s", keyFromMD)
+			} else {
+				logger.Infof("[LEO-DEBUG] header key not found")
+			}
+
+			return nil
+		}
+	}
 }

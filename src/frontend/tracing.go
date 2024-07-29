@@ -45,3 +45,16 @@ func tracingContextWrapper(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r2)
 	})
 }
+
+func myTracingContextWrapper(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
+		traceIdFrom := r.Header.Get("X-Kardinal-Trace-Id")
+		log.Infof("[LEO-DEBUG] traceIdFrom: %s", traceIdFrom)
+
+		md := make(metadata.Metadata)
+		md.Set("X-Kardinal-Trace-Id", traceIdFrom)
+		r2 := r.WithContext(metadata.NewContext(r.Context(), md))
+		next.ServeHTTP(w, r2)
+	})
+}
