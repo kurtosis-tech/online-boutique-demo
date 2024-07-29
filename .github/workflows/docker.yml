@@ -62,3 +62,31 @@ jobs:
           context: "{{defaultContext}}:src/productcatalogservice"
           push: true
           tags: kurtosistech/obd-productcatalogservice:0.0.1-dev
+
+  cartservice:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Login against a Docker registry except on PR
+      # https://github.com/docker/login-action
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Build and push Docker image with Buildx (don't push on PR)
+      # https://github.com/docker/build-push-action
+      - name: Build and push Docker image
+        id: build-and-push
+        uses: docker/build-push-action@v3
+        with:
+          context: "{{defaultContext}}:src/cartservice"
+          push: true
+          tags: kurtosistech/obd-cartservice:0.0.1-dev
