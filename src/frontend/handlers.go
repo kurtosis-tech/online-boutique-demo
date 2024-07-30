@@ -211,11 +211,17 @@ func (fe *frontendServer) addToCartHandler(w http.ResponseWriter, r *http.Reques
 	log := r.Context().Value(ctxKeyLog{}).(logrus.FieldLogger)
 	quantity, _ := strconv.ParseUint(r.FormValue("quantity"), 10, 32)
 	productID := r.FormValue("product_id")
+	isAPresent := r.FormValue("present")
 	if productID == "" || quantity == 0 {
 		renderHTTPError(log, r, w, errors.New("invalid form input"), http.StatusBadRequest)
 		return
 	}
 	log.WithField("product", productID).WithField("quantity", quantity).Debug("adding to cart")
+
+	var isAPresentBool bool
+	if isAPresent == "on" {
+		isAPresentBool = true
+	}
 
 	p, err := fe.getProduct(r.Context(), productID)
 	if err != nil {
@@ -223,7 +229,7 @@ func (fe *frontendServer) addToCartHandler(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	if err := fe.insertCart(r.Context(), sessionID(r), p.GetId(), int32(quantity)); err != nil {
+	if err := fe.insertCart(r.Context(), sessionID(r), p.GetId(), int32(quantity), isAPresentBool); err != nil {
 		renderHTTPError(log, r, w, errors.Wrap(err, "failed to add to cart"), http.StatusInternalServerError)
 		return
 	}
@@ -270,9 +276,10 @@ func (fe *frontendServer) viewCartHandler(w http.ResponseWriter, r *http.Request
 	}
 
 	type cartItemView struct {
-		Item     *pb.Product
-		Quantity int32
-		Price    *pb.Money
+		Item       *pb.Product
+		Quantity   int32
+		IsAPresent bool
+		Price      *pb.Money
 	}
 	items := make([]cartItemView, len(cart))
 	totalPrice := &pb.Money{CurrencyCode: currentCurrency(r)}
@@ -290,9 +297,10 @@ func (fe *frontendServer) viewCartHandler(w http.ResponseWriter, r *http.Request
 
 		multPrice := money.MultiplySlow(price, uint32(item.GetQuantity()))
 		items[i] = cartItemView{
-			Item:     p,
-			Quantity: item.GetQuantity(),
-			Price:    multPrice,
+			Item:       p,
+			Quantity:   item.GetQuantity(),
+			IsAPresent: item.GetIsAPresent(),
+			Price:      multPrice,
 		}
 		totalPrice = money.Must(money.Sum(totalPrice, multPrice))
 	}

@@ -49,11 +49,12 @@ func (db *Db) Close() error {
 	return nil
 }
 
-func (db *Db) AddItem(ctx context.Context, userID, productID string, quantity int32) error {
+func (db *Db) AddItem(ctx context.Context, userID, productID string, quantity int32, isAPresent bool) error {
 	item := &Item{
-		UserID:    userID,
-		ProductID: productID,
-		Quantity:  quantity,
+		UserID:     userID,
+		ProductID:  productID,
+		Quantity:   quantity,
+		IsAPresent: isAPresent,
 	}
 
 	result := db.db.WithContext(ctx).Create(item)
@@ -84,8 +85,9 @@ func (db *Db) GetCart(ctx context.Context, userID string) (*pb.Cart, error) {
 
 	for _, item := range items {
 		cartItemObj := &pb.CartItem{
-			ProductId: item.ProductID,
-			Quantity:  item.Quantity,
+			ProductId:  item.ProductID,
+			Quantity:   item.Quantity,
+			IsAPresent: item.IsAPresent,
 		}
 		cartItems = append(cartItems, cartItemObj)
 	}

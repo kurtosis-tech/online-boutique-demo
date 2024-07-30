@@ -12,7 +12,7 @@ type CartService struct {
 }
 
 func (s *CartService) AddItem(ctx context.Context, in *pb.AddItemRequest, out *pb.Empty) error {
-	return s.Store.AddItem(ctx, in.UserId, in.Item.ProductId, in.Item.Quantity)
+	return s.Store.AddItem(ctx, in.UserId, in.Item.ProductId, in.Item.Quantity, in.Item.IsAPresent)
 }
 
 func (s *CartService) GetCart(ctx context.Context, in *pb.GetCartRequest, out *pb.Cart) error {

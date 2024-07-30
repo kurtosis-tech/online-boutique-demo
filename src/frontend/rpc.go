@@ -47,12 +47,13 @@ func (fe *frontendServer) emptyCart(ctx context.Context, userID string) error {
 	return err
 }
 
-func (fe *frontendServer) insertCart(ctx context.Context, userID, productID string, quantity int32) error {
+func (fe *frontendServer) insertCart(ctx context.Context, userID, productID string, quantity int32, isAPresent bool) error {
 	_, err := fe.cartService.AddItem(ctx, &pb.AddItemRequest{
 		UserId: userID,
 		Item: &pb.CartItem{
-			ProductId: productID,
-			Quantity:  quantity,
+			ProductId:  productID,
+			Quantity:   quantity,
+			IsAPresent: isAPresent,
 		},
 	})
 	return err
